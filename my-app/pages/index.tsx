@@ -2,8 +2,10 @@ import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import Navbar from "../components/Navbar"
+import {useSession} from "next-auth/react"
 
 export default function MenuBar() {
+  const { data: session, status } = useSession()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [categories, setCategories] = useState([])
 
@@ -58,7 +60,7 @@ export default function MenuBar() {
           </Link>
         </div>
       </nav> */}
-      <Navbar />
+      {/* <Navbar /> */}
 
 
       {/* <div className="relative w-full h-96">
@@ -87,7 +89,7 @@ export default function MenuBar() {
             jewellery,
             men's clothing,
             women's clothing</h2> </h1>
-          <p className='mt-4 text-sm text-white'>Welcome!!!!!!!!!!!</p>
+          <p className='mt-4 text-sm text-white'>{session ? `${session.user.name},`:''}Welcome!!!!!!!!!!!</p>
           <Link href="/products">
             <button className="mt-4 bg-black rounded-full hover:bg-red-500 text-white font-bold py-2 px-4 rounded">Shop Now</button>
           </Link>

@@ -2,19 +2,28 @@ import { useEffect, useState } from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
 import Navbar from '../../components/Navbar'
+import { getSession } from 'next-auth/react'
 
 const Products = () => {
+  const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState([])
   const [cartItems, setCartItems] = useState([]);
+  const [session, setSession] = useState(null);
 
   useEffect(() => {
-    async function getProducts() {
+    async function getData() {
+      const session = await getSession()
+      setSession(session);
+      setLoading(false)
+  
       const response = await fetch('https://fakestoreapi.com/products')
       const data = await response.json()
       setProducts(data)
     }
-    getProducts()
+  
+    getData()
   }, [])
+  
 
   const handleAddToCart = (product) => {
     setCartItems([...cartItems, product]);
@@ -26,11 +35,12 @@ const Products = () => {
       <Head>
         <title>Products | My Ecommerce Application</title>
       </Head>
-      <Navbar />
+      {/* <Navbar /> */}
 
 
-      <div className="flex flex-wrap justify-center items-center bg-gray-300 text-white">
-        {products.map((product) => {
+      <div className="flex flex-wrap justify-center items-center bg-gray-300 text-black">
+        {!session && <div>Please Signin to view all Products</div>}
+        {session && products.map((product) => {
 
           return (
             <div key={product.id} className="w-80 h-full mx-4 my-8 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out">

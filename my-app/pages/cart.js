@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
+import { useSession } from 'next-auth/react'
 
 export default function Cart() {
   const [cartItems, setCartItems] = useState([]);
+  const { data: session, status } = useSession();
 
   useEffect(() => {
     const items = JSON.parse(localStorage.getItem('cartItems')) || [];
@@ -18,6 +20,23 @@ export default function Cart() {
   };
 
   const totalPrice = cartItems.reduce((acc, item) => acc + item.price, 0);
+
+  if (status === 'loading') {
+    return <div>Loading...</div>;
+  }
+
+  if (!session) {
+
+    return (
+      <>
+      {/* <Navbar/> */}
+      <div className="flex flex-wrap justify-center items-center bg-gray-300 text-black">
+        Please Signin to view your Cart.
+       </div> 
+      </>
+      
+    )
+  }
 
   return (
     <>

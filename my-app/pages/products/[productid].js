@@ -23,7 +23,7 @@ const ProductId = () => {
 
   return (
     <>
-      <Navbar/>
+      {/* <Navbar/> */}
     <div className="bg-gray-200 min-h-screen bg-gray-900 text-white">
       <div className="max-w-4xl mx-auto py-8">
         {product ? (
