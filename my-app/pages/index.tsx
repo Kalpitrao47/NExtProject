@@ -85,10 +85,14 @@ export default function MenuBar() {
           />
         </div>
         <div className="relative z-10 flex flex-col items-center justify-center h-full">
-          <h1 className='text-2xl font-bold text-gray-200'><h2>New Launches from electronics,
+          <h1 className='text-2xl font-bold text-gray-200'>
+            
+            New Launches from electronics,
             jewellery,
             men's clothing,
-            women's clothing</h2> </h1>
+            women's clothing 
+            
+            </h1>
           <p className='mt-4 text-sm text-white'>{session ? `${session.user.name},`:''}Welcome!!!!!!!!!!!</p>
           <Link href="/products">
             <button className="mt-4 bg-black rounded-full hover:bg-red-500 text-white font-bold py-2 px-4 rounded">Shop Now</button>

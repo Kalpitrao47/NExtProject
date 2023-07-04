@@ -40,7 +40,7 @@ export default function Cart() {
 
   return (
     <>
-    <Navbar/>
+    {/* <Navbar/> */}
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 p-4 md:p-8 lg:p-12 xl:p-16 bg-gray-300">
   {cartItems.map((product) => (
     <div key={product.id} className="bg-white shadow-sm p-4 rounded-lg border border-gray-200 hover:shadow-lg transition duration-300">

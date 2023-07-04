@@ -1,29 +1,13 @@
-import { useEffect, useState } from 'react'
-import Head from 'next/head'
-import Link from 'next/link'
-import Navbar from '../../components/Navbar'
-import { getSession } from 'next-auth/react'
+import Head from "next/head";
+import Link from "next/link";
+import { useState } from "react";
 
-const Products = () => {
+const Products = (props) => {
+    console.log(props)
   const [loading, setLoading] = useState(true);
-  const [products, setProducts] = useState([])
+  const [products, setProducts] = useState(props.data);
   const [cartItems, setCartItems] = useState([]);
   const [session, setSession] = useState(null);
-
-  useEffect(() => {
-    async function getData() {
-      const session = await getSession()
-      setSession(session);
-      setLoading(false)
-  
-      const response = await fetch('https://fakestoreapi.com/products')
-      const data = await response.json()
-      setProducts(data)
-    }
-  
-    getData()
-  }, [])
-  
 
   const handleAddToCart = (product) => {
     setCartItems([...cartItems, product]);
@@ -35,13 +19,9 @@ const Products = () => {
       <Head>
         <title>Products | My Ecommerce Application</title>
       </Head>
-      {/* <Navbar /> */}
-
 
       <div className="flex flex-wrap justify-center items-center bg-gray-300 text-black">
-        {/* {!session && <div>Please Signin to view all Products</div>} */}
-        {session && products.map((product) => {
-
+        {products.map((product) => {
           return (
             <div key={product.id} className="w-80 h-full mx-4 my-8 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out">
               <Link href={`/products/${product.id}`}>
@@ -66,7 +46,6 @@ const Products = () => {
                     </div>
                   </Link>
                 </button>
-
               </div>
             </div>
           )
@@ -76,4 +55,13 @@ const Products = () => {
   )
 }
 
-export default Products
+export async function getServerSideProps(context) {
+  // Fetch data from external API
+  const res = await fetch(`https://fakestoreapi.com/products`);
+  const data = await res.json();
+
+  // Pass data to the page via props
+  return { props: { data } };
+}
+
+export default Products;
